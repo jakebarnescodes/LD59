@@ -1,3 +1,104 @@
 [gd_scene format=3 uid="uid://bsp00jucjsi55"]
 
+[ext_resource type="PackedScene" uid="uid://de3bv3tyjobhb" path="res://Scenes/screen.tscn" id="1_jjgbg"]
+[ext_resource type="PackedScene" uid="uid://8oaip80fnkps" path="res://Assets/Models/Monitor.glb" id="2_bo1nx"]
+[ext_resource type="Script" uid="uid://bo3qke7axqr43" path="res://Scripts/subviewport_input_event_handler.gd" id="2_jjvhh"]
+[ext_resource type="Texture2D" uid="uid://c3jd6f40eh2yn" path="res://icon.svg" id="3_8gbba"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8gbba"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_jjvhh"]
+sky_material = SubResource("ProceduralSkyMaterial_8gbba")
+
+[sub_resource type="Environment" id="Environment_kry3j"]
+background_mode = 1
+sky = SubResource("Sky_jjvhh")
+tonemap_mode = 2
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_bo1nx"]
+viewport_path = NodePath("Monitor/ScreenPlane/ScreenViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8gbba"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_bo1nx")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jjvhh"]
+size = Vector2(0.46, 0.35)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8gbba"]
+size = Vector3(0.5, 0.05, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bo1nx"]
+albedo_color = Color(0.33, 0.13200001, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bo1nx"]
+material = SubResource("StandardMaterial3D_bo1nx")
+size = Vector3(2, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kry3j"]
+albedo_color = Color(0.5, 0.5, 0.5, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jjvhh"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_kry3j"]
+material = SubResource("StandardMaterial3D_jjvhh")
+size = Vector2(1.2, 0.7)
+
 [node name="Main" type="Node" unique_id=1732646574]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1462073325]
+environment = SubResource("Environment_kry3j")
+
+[node name="Monitor" parent="." unique_id=1281833201 instance=ExtResource("2_bo1nx")]
+transform = Transform3D(0.96592593, 0, 0.25881907, 0, 1, 0, -0.25881907, 0, 0.96592593, -0.4, 0.65000004, -0.25)
+
+[node name="ScreenPlane" type="MeshInstance3D" parent="Monitor" unique_id=556763401 node_paths=PackedStringArray("node_viewport", "node_quad", "node_area")]
+transform = Transform3D(1, 0, 8.881783e-16, 0, 0.029962774, -0.999551, 0, 0.999551, 0.029962774, 0, 0.35999995, 0.18007378)
+material_override = SubResource("StandardMaterial3D_8gbba")
+mesh = SubResource("PlaneMesh_jjvhh")
+script = ExtResource("2_jjvhh")
+node_viewport = NodePath("ScreenViewport")
+node_quad = NodePath(".")
+node_area = NodePath("Area3D")
+
+[node name="ScreenViewport" type="SubViewport" parent="Monitor/ScreenPlane" unique_id=828419649]
+size = Vector2i(640, 480)
+
+[node name="ScreenScene" parent="Monitor/ScreenPlane/ScreenViewport" unique_id=2114015528 instance=ExtResource("1_jjgbg")]
+
+[node name="Area3D" type="Area3D" parent="Monitor/ScreenPlane" unique_id=1387231652]
+transform = Transform3D(0.99999994, 0, 0, 1.4901161e-08, 1, 1.8626451e-09, -4.656613e-10, 0, 0.99999994, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Monitor/ScreenPlane/Area3D" unique_id=558448157]
+transform = Transform3D(1, -2.3314645e-15, -2.0861602e-07, 0, 1, -1.1175866e-08, 2.0861602e-07, 1.1175866e-08, 1, 1.7881393e-07, -0.024999842, -3.0994415e-06)
+shape = SubResource("BoxShape3D_8gbba")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1777746156]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0.5)
+
+[node name="Desk" type="CSGMesh3D" parent="." unique_id=1669595672]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("BoxMesh_bo1nx")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=940324523]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.4, 3.0000002, -0.45000002)
+light_energy = 3.0
+shadow_enabled = true
+spot_range = 3.0
+spot_angle = 30.0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=537555051]
+position = Vector2(1497, 259)
+texture = ExtResource("3_8gbba")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=454268411]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.9604645e-08, 0.9749999, -0.525)
+size = Vector3(2.8, 1.95, 0.05)
+material = SubResource("StandardMaterial3D_kry3j")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1342959953]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.50000006, 1.45, -0.49022728)
+mesh = SubResource("PlaneMesh_kry3j")
