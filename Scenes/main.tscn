@@ -1,9 +1,17 @@
 [gd_scene format=3 uid="uid://bsp00jucjsi55"]
 
+[ext_resource type="Script" uid="uid://dyqxsd47p7efc" path="res://Scripts/main.gd" id="1_6iyac"]
 [ext_resource type="PackedScene" uid="uid://de3bv3tyjobhb" path="res://Scenes/screen.tscn" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://8oaip80fnkps" path="res://Assets/Models/Monitor.glb" id="2_bo1nx"]
 [ext_resource type="Script" uid="uid://bo3qke7axqr43" path="res://Scripts/subviewport_input_event_handler.gd" id="2_jjvhh"]
-[ext_resource type="Texture2D" uid="uid://c3jd6f40eh2yn" path="res://icon.svg" id="3_8gbba"]
+[ext_resource type="Script" uid="uid://8frddi8p25il" path="res://Scripts/monitor.gd" id="2_ynf5e"]
+[ext_resource type="Script" uid="uid://davkelo16pcoi" path="res://Scripts/camera.gd" id="4_21xkr"]
+[ext_resource type="Script" uid="uid://baqmgp8k5a5y6" path="res://Scripts/spot_light_3d.gd" id="5_344ge"]
+[ext_resource type="PackedScene" uid="uid://yel0vfhfuqlp" path="res://Scenes/whiteboard.tscn" id="5_kry3j"]
+[ext_resource type="Shader" uid="uid://bf1k4ptngff41" path="res://Scripts/Shaders/pixel.gdshader" id="7_6bp64"]
+[ext_resource type="PackedScene" uid="uid://bdd0bsg8ivpmc" path="res://Assets/Models/keyboard.glb" id="8_344ge"]
+[ext_resource type="Script" uid="uid://r6qxvaf53u2q" path="res://Scripts/ending_layer.gd" id="10_d1ilt"]
+[ext_resource type="FontFile" uid="uid://db7oex1o4kmud" path="res://Assets/Fonts/eight-bit-dragon.otf" id="10_hptm8"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8gbba"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -38,22 +46,473 @@ albedo_color = Color(0.33, 0.13200001, 0, 1)
 material = SubResource("StandardMaterial3D_bo1nx")
 size = Vector3(2, 0.1, 1)
 
+[sub_resource type="Animation" id="Animation_344ge"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:max_energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:flicker_magnitude")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:flicker_speed")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [5.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:sway_magnitude")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.5]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:sway_speed")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.5]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:light_color")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_hptm8"]
+resource_name = "hard_flicker"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:max_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:flicker_speed")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [10.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:sway_magnitude")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:flicker_magnitude")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.8]
+}
+
+[sub_resource type="Animation" id="Animation_d1ilt"]
+resource_name = "hard_sway"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:sway_magnitude")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [10.0, 5.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:sway_speed")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 0.1),
+"update": 0,
+"values": [3.0, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:max_energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.5]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:flicker_magnitude")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:flicker_speed")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [6.0, 5.0]
+}
+
+[sub_resource type="Animation" id="Animation_6iyac"]
+resource_name = "red"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:max_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 10),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 4.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:light_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:flicker_magnitude")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.5]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:flicker_speed")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [5.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:sway_magnitude")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [3.0]
+}
+
+[sub_resource type="Animation" id="Animation_fdnlq"]
+resource_name = "submission_time"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:max_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(10),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:flicker_magnitude")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(10),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ynf5e"]
+resource_name = "turn_on"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:max_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 0.5),
+"update": 0,
+"values": [0.0, 3.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:flicker_magnitude")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.6]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hptm8"]
+_data = {
+&"RESET": SubResource("Animation_344ge"),
+&"hard_flicker": SubResource("Animation_hptm8"),
+&"hard_sway": SubResource("Animation_d1ilt"),
+&"red": SubResource("Animation_6iyac"),
+&"submission_time": SubResource("Animation_fdnlq"),
+&"turn_on": SubResource("Animation_ynf5e")
+}
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kry3j"]
 albedo_color = Color(0.5, 0.5, 0.5, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jjvhh"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_kry3j"]
+viewport_path = NodePath("WhiteboardPlane/WhiteboardViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_21xkr"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_kry3j")
+metallic = 1.0
+metallic_specular = 1.0
+roughness = 0.7
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_kry3j"]
-material = SubResource("StandardMaterial3D_jjvhh")
 size = Vector2(1.2, 0.7)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_21xkr"]
+size = Vector3(1.2, 0.05, 0.7)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_344ge"]
+shader = ExtResource("7_6bp64")
+shader_parameter/pixel_size = 2
+shader_parameter/screen_size = Vector2(1280, 720)
+
+[sub_resource type="LabelSettings" id="LabelSettings_d1ilt"]
+font = ExtResource("10_hptm8")
+font_size = 36
+font_color = Color(1, 0.16666669, 0, 1)
+
+[sub_resource type="Animation" id="Animation_wsu2k"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("EndingLabel:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ColorRect:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_jkdf5"]
+resource_name = "ending"
+length = 15.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("EndingLabel:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 5, 15),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ColorRect:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("EndingLabel:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wsu2k"]
+_data = {
+&"RESET": SubResource("Animation_wsu2k"),
+&"ending": SubResource("Animation_jkdf5")
+}
+
 [node name="Main" type="Node" unique_id=1732646574]
+script = ExtResource("1_6iyac")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1462073325]
 environment = SubResource("Environment_kry3j")
 
 [node name="Monitor" parent="." unique_id=1281833201 instance=ExtResource("2_bo1nx")]
 transform = Transform3D(0.96592593, 0, 0.25881907, 0, 1, 0, -0.25881907, 0, 0.96592593, -0.4, 0.65000004, -0.25)
+script = ExtResource("2_ynf5e")
 
 [node name="ScreenPlane" type="MeshInstance3D" parent="Monitor" unique_id=556763401 node_paths=PackedStringArray("node_viewport", "node_quad", "node_area")]
 transform = Transform3D(1, 0, 8.881783e-16, 0, 0.029962774, -0.999551, 0, 0.999551, 0.029962774, 0, 0.35999995, 0.18007378)
@@ -78,27 +537,127 @@ shape = SubResource("BoxShape3D_8gbba")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1777746156]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0.5)
+fov = 70.0
+script = ExtResource("4_21xkr")
 
 [node name="Desk" type="CSGMesh3D" parent="." unique_id=1669595672]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 mesh = SubResource("BoxMesh_bo1nx")
 
-[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=940324523]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.4, 3.0000002, -0.45000002)
-light_energy = 3.0
+[node name="MainSpotlight" type="SpotLight3D" parent="." unique_id=940324523]
+transform = Transform3D(-4.371139e-08, -1, -4.371139e-08, 0, -4.371139e-08, 1, -1, 4.371139e-08, 1.9106855e-15, 0.45000002, 3.0000002, -0.45000002)
+light_energy = 0.0
 shadow_enabled = true
 spot_range = 3.0
 spot_angle = 30.0
+script = ExtResource("5_344ge")
+sway_magnitude = 0.5
+sway_speed = 0.5
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=537555051]
-position = Vector2(1497, 259)
-texture = ExtResource("3_8gbba")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MainSpotlight" unique_id=1891453127]
+libraries/ = SubResource("AnimationLibrary_hptm8")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=454268411]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.9604645e-08, 0.9749999, -0.525)
 size = Vector3(2.8, 1.95, 0.05)
 material = SubResource("StandardMaterial3D_kry3j")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1342959953]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.50000006, 1.45, -0.49022728)
+[node name="WhiteboardPlane" type="MeshInstance3D" parent="." unique_id=1342959953 node_paths=PackedStringArray("node_viewport", "node_quad", "node_area")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.5500001, 1.45, -0.49022728)
+material_override = SubResource("StandardMaterial3D_21xkr")
 mesh = SubResource("PlaneMesh_kry3j")
+script = ExtResource("2_jjvhh")
+node_viewport = NodePath("WhiteboardViewport")
+node_quad = NodePath(".")
+node_area = NodePath("Area3D")
+
+[node name="WhiteboardViewport" type="SubViewport" parent="WhiteboardPlane" unique_id=2027511831]
+size = Vector2i(600, 350)
+
+[node name="WhiteboardScene" parent="WhiteboardPlane/WhiteboardViewport" unique_id=1923283453 instance=ExtResource("5_kry3j")]
+
+[node name="Area3D" type="Area3D" parent="WhiteboardPlane" unique_id=46922361]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WhiteboardPlane/Area3D" unique_id=1885234502]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.025000036, 0)
+shape = SubResource("BoxShape3D_21xkr")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=936999673]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.55, 1.9499999, 0.4)
+light_energy = 0.01
+shadow_enabled = true
+
+[node name="ShaderLayer" type="CanvasLayer" parent="." unique_id=962237823]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="ShaderLayer" unique_id=1143177342]
+material = SubResource("ShaderMaterial_344ge")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
+[node name="keyboard2" parent="." unique_id=771085615 instance=ExtResource("8_344ge")]
+transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0.15, 0.7, -0.100000024)
+
+[node name="EndingLayer" type="CanvasLayer" parent="." unique_id=1040014429]
+layer = 9
+visible = false
+script = ExtResource("10_d1ilt")
+good_ending_text = "You successfully decoded the alien messages.
+
+The people of Earth could have been warned
+of the incoming invasion, but it was too late.
+
+By the time the signal reached Earth,
+the intruders were already on their way.
+By the time you decoded it,
+they were already here.
+
+Earth was destroyed;
+made inhospitable to the few survivors.
+
+Thanks for playing :)
+Press ESC to return to the main menu."
+bad_ending_text = "You failed to decode the messages.
+
+Press ESC to try again :)"
+
+[node name="ColorRect" type="ColorRect" parent="EndingLayer" unique_id=1228036546]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="EndingLabel" type="Label" parent="EndingLayer" unique_id=437969866]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -484.0
+offset_top = -18.5
+offset_right = 484.0
+offset_bottom = 18.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+label_settings = SubResource("LabelSettings_d1ilt")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="EndingLayer" unique_id=342537889]
+libraries/ = SubResource("AnimationLibrary_wsu2k")
+
+[node name="Timer" type="Timer" parent="EndingLayer" unique_id=1510292306]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="timeout" from="EndingLayer/Timer" to="EndingLayer" method="_on_timer_timeout"]

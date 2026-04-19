@@ -19,7 +19,6 @@ func _ready():
 
 func _mouse_entered_area():
 	is_mouse_inside = true
-	print("mouse inside")
 
 func _mouse_exited_area():
 	is_mouse_inside = false
@@ -32,7 +31,6 @@ func _unhandled_input(event):
 			# If the event is a mouse/touch event, then we can ignore it here, because it will be
 			# handled via Physics Picking.
 			return
-	print(event)
 	node_viewport.push_input(event)
 
 func _mouse_input_event(_camera: Camera3D, event: InputEvent, event_position: Vector3, _normal: Vector3, _shape_idx: int):
@@ -98,6 +96,3 @@ func _mouse_input_event(_camera: Camera3D, event: InputEvent, event_position: Ve
 
 	# Finally, send the processed input event to the viewport.
 	node_viewport.push_input(event)
-	
-	if is_instance_of(event, InputEventMouseButton):
-		print(event)

@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://yel0vfhfuqlp"]
+
+[ext_resource type="Script" uid="uid://cwsv4p5p7og27" path="res://Scripts/whiteboard.gd" id="1_015jc"]
+[ext_resource type="Script" uid="uid://clfefp6em578o" path="res://Scripts/whiteboard_entries.gd" id="1_t0r2g"]
+[ext_resource type="FontFile" uid="uid://dkxhx4e5oklsa" path="res://Assets/Fonts/design.graffiti.comicsansmsgras.ttf" id="2_015jc"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_015jc"]
+font = ExtResource("2_015jc")
+font_size = 72
+font_color = Color(0, 0, 0, 1)
+
+[node name="WhiteboardScene" type="Node2D" unique_id=1923283453]
+script = ExtResource("1_015jc")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1838289736]
+custom_minimum_size = Vector2(600, 350)
+offset_right = 600.0
+offset_bottom = 350.0
+
+[node name="EntriesMenu" type="Control" parent="." unique_id=2029201221]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 600.0
+offset_bottom = 350.0
+
+[node name="WhiteboardEntries" type="GridContainer" parent="EntriesMenu" unique_id=1046541505]
+layout_mode = 0
+offset_right = 481.0
+offset_bottom = 436.0
+theme_override_constants/h_separation = 14
+columns = 5
+script = ExtResource("1_t0r2g")
+entry_scene_path = "res://Scenes/whiteboard_entry.tscn"
+
+[node name="SubmitButton" type="Button" parent="EntriesMenu" unique_id=1812687289]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -54.0
+offset_top = -47.0
+offset_right = 54.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_colors/font_disabled_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_fonts/font = ExtResource("2_015jc")
+theme_override_font_sizes/font_size = 24
+text = "SUBMIT"
+flat = true
+
+[node name="MainMenu" type="Control" parent="." unique_id=1508236197]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 600.0
+offset_bottom = 350.0
+
+[node name="Title" type="Label" parent="MainMenu" unique_id=1887921474]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -287.5
+offset_top = -50.5
+offset_right = 287.5
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "This is the Title"
+label_settings = SubResource("LabelSettings_015jc")
+horizontal_alignment = 1
+
+[connection signal="pressed" from="EntriesMenu/SubmitButton" to="." method="_on_submit_button_pressed"]

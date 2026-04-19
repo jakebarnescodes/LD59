@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://cxmb8qm8djh8h"]
+
+[ext_resource type="Script" uid="uid://cxca3iqv3e360" path="res://Scripts/whiteboard_entry.gd" id="1_jbak5"]
+[ext_resource type="FontFile" uid="uid://da5irmufewpr0" path="res://Assets/Fonts/Alpha.otf" id="1_lx8ig"]
+[ext_resource type="FontFile" uid="uid://dkxhx4e5oklsa" path="res://Assets/Fonts/design.graffiti.comicsansmsgras.ttf" id="2_jbak5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_oa12a"]
+font = ExtResource("1_lx8ig")
+font_size = 50
+font_color = Color(0, 0, 0, 1)
+
+[node name="Entry" type="HBoxContainer" unique_id=70467181]
+script = ExtResource("1_jbak5")
+
+[node name="Label" type="Label" parent="." unique_id=571794540]
+layout_mode = 2
+text = "a"
+label_settings = SubResource("LabelSettings_oa12a")
+
+[node name="LineEdit" type="LineEdit" parent="." unique_id=1067050128]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_uneditable_color = Color(0, 0, 0, 1)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 1)
+theme_override_colors/caret_color = Color(0, 0, 0, 1)
+theme_override_constants/minimum_character_width = 1
+theme_override_fonts/font = ExtResource("2_jbak5")
+theme_override_font_sizes/font_size = 30
+placeholder_text = "_"
+alignment = 1
+max_length = 1
+context_menu_enabled = false
+emoji_menu_enabled = false
+backspace_deletes_composite_character_enabled = true
+clear_button_enabled = true
+shortcut_keys_enabled = false
+middle_mouse_paste_enabled = false
+flat = true
+
+[connection signal="text_changed" from="LineEdit" to="." method="_on_line_edit_text_changed"]

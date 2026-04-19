@@ -1,16 +1,65 @@
 [gd_scene format=3 uid="uid://de3bv3tyjobhb"]
 
 [ext_resource type="FontFile" uid="uid://db7oex1o4kmud" path="res://Assets/Fonts/eight-bit-dragon.otf" id="1_fq6pb"]
-[ext_resource type="Script" uid="uid://duig5iwx7oayd" path="res://Scripts/test_button.gd" id="2_rxw1a"]
+[ext_resource type="Script" uid="uid://cnhus45fkg43u" path="res://Scripts/screen.gd" id="1_v03ju"]
+[ext_resource type="Script" uid="uid://cnhv8mqd08clb" path="res://Scripts/start_button.gd" id="2_rxw1a"]
+[ext_resource type="Script" uid="uid://bqmguoyobvyph" path="res://Scripts/hardmode_checkbox.gd" id="3_q46bu"]
+[ext_resource type="Script" uid="uid://b8kao4gkwn16r" path="res://Scripts/volume_slider.gd" id="4_kc4op"]
+[ext_resource type="Script" uid="uid://muys1m0f6v3m" path="res://Scripts/intro_label.gd" id="4_rpafq"]
+[ext_resource type="FontFile" uid="uid://da5irmufewpr0" path="res://Assets/Fonts/Alpha.otf" id="5_6je66"]
+[ext_resource type="Script" uid="uid://pnn3hm2ogxs2" path="res://Scripts/alien_text_label.gd" id="6_plcl3"]
+[ext_resource type="Texture2D" uid="uid://bhyx8m53j64p1" path="res://Assets/Sprites/crt.jpg" id="7_6wm1x"]
+[ext_resource type="Script" uid="uid://bbpbhvfln3yd8" path="res://Scripts/pause_button.gd" id="7_q1xu3"]
+[ext_resource type="Script" uid="uid://bppmlje3ej86d" path="res://Scripts/time_bar.gd" id="8_5ka11"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_v03ju"]
+font = ExtResource("1_fq6pb")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_plcl3"]
+font = ExtResource("5_6je66")
+font_size = 100
+font_color = Color(1, 0.8333334, 0, 1)
+outline_size = 10
+outline_color = Color(1, 0.5, 0, 1)
+shadow_size = 20
+shadow_color = Color(1, 0.16666669, 0, 1)
+shadow_offset = Vector2(0, 0)
 
 [node name="ScreenScene" type="Node2D" unique_id=2114015528]
+script = ExtResource("1_v03ju")
 
 [node name="MainMenu" type="Control" parent="." unique_id=1268704687]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 640.0
 offset_bottom = 480.0
 mouse_filter = 2
+
+[node name="HardmodeCheckbox" type="CheckBox" parent="MainMenu" unique_id=1280859069]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -118.5
+offset_top = -48.0
+offset_right = 118.5
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.03, 0.03, 0.03, 0.99607843)
+theme_override_colors/font_pressed_color = Color(1, 0.16666669, 0, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_fonts/font = ExtResource("1_fq6pb")
+theme_override_font_sizes/font_size = 24
+theme_override_colors/checkbox_checked_color = Color(1, 0.16666669, 0, 1)
+theme_override_colors/checkbox_unchecked_color = Color(1, 1, 1, 1)
+text = "challenge mode"
+alignment = 1
+script = ExtResource("3_q46bu")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainMenu" unique_id=849929057]
 layout_mode = 1
@@ -35,11 +84,12 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.16666669, 0, 1)
 theme_override_fonts/font = ExtResource("1_fq6pb")
 theme_override_font_sizes/font_size = 48
-text = "Start"
+text = "BEGIN DECODING"
 flat = true
 script = ExtResource("2_rxw1a")
 
 [node name="OptionsButton" type="Button" parent="MainMenu/VBoxContainer" unique_id=1593326293]
+visible = false
 custom_minimum_size = Vector2(300, 64)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.16666669, 0, 1)
@@ -49,6 +99,7 @@ text = "Options"
 flat = true
 
 [node name="ExitButton" type="Button" parent="MainMenu/VBoxContainer" unique_id=1738513030]
+visible = false
 custom_minimum_size = Vector2(300, 64)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.16666669, 0, 1)
@@ -57,11 +108,174 @@ theme_override_font_sizes/font_size = 48
 text = "Exit"
 flat = true
 
-[node name="ColorRect" type="ColorRect" parent="MainMenu" unique_id=151531649]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/VBoxContainer" unique_id=1358769258]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="MainMenu/VBoxContainer/HBoxContainer" unique_id=65975940]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.11666668, 0, 1)
+theme_override_fonts/font = ExtResource("1_fq6pb")
+theme_override_font_sizes/font_size = 24
+text = "volume"
+
+[node name="VolumeSlider" type="HSlider" parent="MainMenu/VBoxContainer/HBoxContainer" unique_id=2036744533]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.01
+value = 1.0
+script = ExtResource("4_kc4op")
+
+[node name="Intro" type="Control" parent="." unique_id=576635507]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 480.0
+mouse_filter = 2
+
+[node name="IntroLabel" type="Label" parent="Intro" unique_id=1256112458]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -152.0
+offset_top = -16.5
+offset_right = 152.0
+offset_bottom = 16.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Incoming Signal"
+label_settings = SubResource("LabelSettings_v03ju")
+script = ExtResource("4_rpafq")
+
+[node name="Timer" type="Timer" parent="Intro/IntroLabel" unique_id=2008874394]
+wait_time = 0.3
+autostart = true
+
+[node name="IntroTimer" type="Timer" parent="Intro" unique_id=860163572]
+wait_time = 10.0
+one_shot = true
+
+[node name="Phrases" type="Control" parent="." unique_id=122979889]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 480.0
+
+[node name="AlienTextLabel" type="Label" parent="Phrases" unique_id=1702968944]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.43300003
+anchor_right = 0.5
+anchor_bottom = 0.43300003
+offset_left = -300.0
+offset_top = -66.84001
+offset_right = 300.0
+offset_bottom = 67.15999
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+label_settings = SubResource("LabelSettings_plcl3")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+script = ExtResource("6_plcl3")
+phrases = Array[String](["hello", "human", "thank you", "for your signals", "now we know", "where earth is", "we are grateful", "we are coming", "and we do not", "come in peace", "you will die", "earth will die", "humanity will die", "do not resist", "quit", "just give up", "become extinct", "earth set ablaze", "until it is glass", "and you are ash"])
+shake_magnitude = 1
+shake_speed = 0.2
+
+[node name="PhraseTimer" type="Timer" parent="Phrases/AlienTextLabel" unique_id=665818660]
+wait_time = 10.0
+one_shot = true
+
+[node name="TypeEffectTimer" type="Timer" parent="Phrases/AlienTextLabel" unique_id=2045446417]
+wait_time = 0.5
+
+[node name="ShakeTimer" type="Timer" parent="Phrases/AlienTextLabel" unique_id=463422828]
+autostart = true
+
+[node name="GameColorRect" type="ColorRect" parent="Phrases" unique_id=1821763440]
 z_index = -1
 custom_minimum_size = Vector2(640, 480)
 layout_mode = 0
+offset_right = 640.0
+offset_bottom = 480.0
+mouse_filter = 2
+color = Color(0.1, 0, 0, 1)
+
+[node name="VideoControlBar" type="ColorRect" parent="Phrases" unique_id=800941289]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="PauseButton" type="Button" parent="Phrases/VideoControlBar" unique_id=839908013]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = -32.5
+offset_right = 21.0
+offset_bottom = 32.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.16666669, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.8333334, 0, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_fonts/font = ExtResource("1_fq6pb")
+theme_override_font_sizes/font_size = 40
+toggle_mode = true
+text = "PAUSE"
+flat = true
+script = ExtResource("7_q1xu3")
+
+[node name="TimeBar" type="ColorRect" parent="Phrases/VideoControlBar" unique_id=1434487905]
+layout_mode = 0
+offset_top = -5.0
+offset_right = 640.0
+color = Color(1, 0.16666669, 0, 1)
+script = ExtResource("8_5ka11")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=151531649]
+z_index = -2
+custom_minimum_size = Vector2(640, 480)
+offset_right = 640.0
+offset_bottom = 480.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
+[node name="TextureRect" type="TextureRect" parent="." unique_id=219502911]
+modulate = Color(1, 1, 1, 0.19607843)
+z_index = 2
+offset_right = 640.0
+offset_bottom = 480.0
+mouse_filter = 2
+texture = ExtResource("7_6wm1x")
+expand_mode = 1
+
+[connection signal="toggled" from="MainMenu/HardmodeCheckbox" to="MainMenu/HardmodeCheckbox" method="_on_toggled"]
 [connection signal="pressed" from="MainMenu/VBoxContainer/StartButton" to="MainMenu/VBoxContainer/StartButton" method="_on_pressed"]
+[connection signal="value_changed" from="MainMenu/VBoxContainer/HBoxContainer/VolumeSlider" to="MainMenu/VBoxContainer/HBoxContainer/VolumeSlider" method="_on_value_changed"]
+[connection signal="timeout" from="Intro/IntroLabel/Timer" to="Intro/IntroLabel" method="_on_timer_timeout"]
+[connection signal="timeout" from="Intro/IntroTimer" to="." method="_on_intro_timer_timeout"]
+[connection signal="timeout" from="Phrases/AlienTextLabel/PhraseTimer" to="Phrases/AlienTextLabel" method="_on_phrase_timer_timeout"]
+[connection signal="timeout" from="Phrases/AlienTextLabel/TypeEffectTimer" to="Phrases/AlienTextLabel" method="_on_type_effect_timer_timeout"]
+[connection signal="timeout" from="Phrases/AlienTextLabel/ShakeTimer" to="Phrases/AlienTextLabel" method="_on_shake_timer_timeout"]
+[connection signal="toggled" from="Phrases/VideoControlBar/PauseButton" to="Phrases/AlienTextLabel" method="_on_pause_button_toggled"]
+[connection signal="toggled" from="Phrases/VideoControlBar/PauseButton" to="Phrases/VideoControlBar/PauseButton" method="_on_toggled"]
