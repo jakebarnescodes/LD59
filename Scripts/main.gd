@@ -15,3 +15,12 @@ func switch_ambience():
 		$AmbienceAudio.stream = tunnel_loop
 		$AmbienceAudio.volume_db = -15
 	$AmbienceAudio.play()
+
+func _process(_delta: float) -> void:
+	if Input.is_action_just_pressed("Fullscreen") and !OS.has_feature("web"):
+		var mode = DisplayServer.window_get_mode()
+
+		if mode == DisplayServer.WINDOW_MODE_FULLSCREEN:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		else:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)

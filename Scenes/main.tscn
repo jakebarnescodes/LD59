@@ -33,6 +33,7 @@
 [ext_resource type="Texture2D" uid="uid://bos5eb3os5aey" path="res://Assets/Sprites/doggos.JPG" id="31_hpc6h"]
 [ext_resource type="AudioStream" uid="uid://busa6u0jlu7xa" path="res://Assets/SFX/click.wav" id="31_neg2b"]
 [ext_resource type="Script" uid="uid://dnwjpch8v4ie" path="res://Scripts/debug_light.gd" id="31_r33sp"]
+[ext_resource type="Script" uid="uid://be6gmwjk33g27" path="res://Scripts/quit_button.gd" id="32_hdf80"]
 [ext_resource type="PackedScene" uid="uid://c3ucejq1w3tvt" path="res://Assets/Models/Radio.glb" id="32_kltya"]
 [ext_resource type="Texture2D" uid="uid://dtt84pklarq42" path="res://Assets/Sprites/ufo.jpg" id="33_e08e2"]
 
@@ -1009,6 +1010,19 @@ script = ExtResource("16_k12tt")
 stream = ExtResource("31_neg2b")
 volume_db = -10.0
 
+[node name="QuitButton" type="Button" parent="ResetButtonLayer" unique_id=972879653]
+offset_left = 10.0
+offset_top = 36.0
+offset_right = 74.0
+offset_bottom = 61.0
+theme_override_colors/font_color = Color(0.3, 0.3, 0.3, 1)
+theme_override_colors/font_hover_color = Color(1, 0.16666669, 0, 1)
+theme_override_fonts/font = ExtResource("10_hptm8")
+text = "QUIT"
+flat = true
+expand_icon = true
+script = ExtResource("32_hdf80")
+
 [node name="DebugLight" type="DirectionalLight3D" parent="." unique_id=116213075]
 transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 3, 4.6)
 script = ExtResource("31_r33sp")
@@ -1037,3 +1051,4 @@ mesh = SubResource("PlaneMesh_r33sp")
 [connection signal="timeout" from="OmniLight3D/Timer" to="OmniLight3D" method="_on_timer_timeout"]
 [connection signal="timeout" from="EndingLayer/Timer" to="EndingLayer" method="_on_timer_timeout"]
 [connection signal="pressed" from="ResetButtonLayer/ResetButton" to="ResetButtonLayer/ResetButton" method="_on_reset_button_pressed"]
+[connection signal="pressed" from="ResetButtonLayer/QuitButton" to="ResetButtonLayer/QuitButton" method="_on_pressed"]
