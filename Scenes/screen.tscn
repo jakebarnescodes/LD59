@@ -9,8 +9,15 @@
 [ext_resource type="FontFile" uid="uid://da5irmufewpr0" path="res://Assets/Fonts/Alpha.otf" id="5_6je66"]
 [ext_resource type="Script" uid="uid://pnn3hm2ogxs2" path="res://Scripts/alien_text_label.gd" id="6_plcl3"]
 [ext_resource type="Texture2D" uid="uid://bhyx8m53j64p1" path="res://Assets/Sprites/crt.jpg" id="7_6wm1x"]
+[ext_resource type="AudioStream" uid="uid://bunuudjxhpn64" path="res://Assets/SFX/startup.ogg" id="7_julj4"]
 [ext_resource type="Script" uid="uid://bbpbhvfln3yd8" path="res://Scripts/pause_button.gd" id="7_q1xu3"]
 [ext_resource type="Script" uid="uid://bppmlje3ej86d" path="res://Scripts/time_bar.gd" id="8_5ka11"]
+[ext_resource type="AudioStream" uid="uid://fh13dghlk5ls" path="res://Assets/SFX/type.wav" id="9_uoisd"]
+[ext_resource type="AudioStream" uid="uid://cbijr7np1t5gx" path="res://Assets/SFX/static.wav" id="10_uh45s"]
+[ext_resource type="AudioStream" uid="uid://cantqcxy5nn7o" path="res://Assets/SFX/Whispers.wav" id="11_34st0"]
+[ext_resource type="AudioStream" uid="uid://busa6u0jlu7xa" path="res://Assets/SFX/click.wav" id="11_tmuwj"]
+[ext_resource type="Texture2D" uid="uid://cagwxlm2snh7t" path="res://Assets/Sprites/static.png" id="17_v3sfs"]
+[ext_resource type="Script" uid="uid://rt78pge5mpmc" path="res://Scripts/static_rect.gd" id="18_nil0t"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_v03ju"]
 font = ExtResource("1_fq6pb")
@@ -30,7 +37,6 @@ shadow_offset = Vector2(0, 0)
 script = ExtResource("1_v03ju")
 
 [node name="MainMenu" type="Control" parent="." unique_id=1268704687]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 640.0
@@ -61,6 +67,10 @@ text = "challenge mode"
 alignment = 1
 script = ExtResource("3_q46bu")
 
+[node name="HardmodeSoundPlayer" type="AudioStreamPlayer" parent="MainMenu/HardmodeCheckbox" unique_id=1752213683]
+stream = ExtResource("9_uoisd")
+volume_db = -10.0
+
 [node name="VBoxContainer" type="VBoxContainer" parent="MainMenu" unique_id=849929057]
 layout_mode = 1
 anchors_preset = 8
@@ -69,9 +79,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -275.5
-offset_top = -45.0
+offset_top = -152.5
 offset_right = 275.5
-offset_bottom = 45.0
+offset_bottom = 152.5
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -162,7 +172,12 @@ autostart = true
 wait_time = 10.0
 one_shot = true
 
+[node name="IntroAudioPlayer" type="AudioStreamPlayer" parent="Intro" unique_id=1752996122]
+stream = ExtResource("7_julj4")
+volume_db = -15.0
+
 [node name="Phrases" type="Control" parent="." unique_id=122979889]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 640.0
@@ -188,7 +203,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 script = ExtResource("6_plcl3")
-phrases = Array[String](["hello", "human", "thank you", "for your signals", "now we know", "where earth is", "we are grateful", "we are coming", "and we do not", "come in peace", "you will die", "earth will die", "humanity will die", "do not resist", "quit", "just give up", "become extinct", "earth set ablaze", "until it is glass", "and you are ash"])
+phrases = Array[String](["hello", "human", "thank you", "for your signals", "now we know", "where earth is", "we are grateful", "we are coming", "and we do not", "come in peace", "you will die", "do not resist", "quit", "just give up", "become extinct", "earth set ablaze", "until it is glass", "we are", "the peace keepers", "the end"])
 shake_magnitude = 1
 shake_speed = 0.2
 
@@ -201,6 +216,18 @@ wait_time = 0.5
 
 [node name="ShakeTimer" type="Timer" parent="Phrases/AlienTextLabel" unique_id=463422828]
 autostart = true
+
+[node name="TypeEffectAudioPlayer" type="AudioStreamPlayer" parent="Phrases/AlienTextLabel" unique_id=758608890]
+stream = ExtResource("9_uoisd")
+volume_db = -10.0
+
+[node name="StaticAudioPlayer" type="AudioStreamPlayer" parent="Phrases/AlienTextLabel" unique_id=166936689]
+stream = ExtResource("10_uh45s")
+volume_db = -13.0
+
+[node name="WhispersPlayer" type="AudioStreamPlayer" parent="Phrases/AlienTextLabel" unique_id=77732519]
+stream = ExtResource("11_34st0")
+volume_db = -13.0
 
 [node name="GameColorRect" type="ColorRect" parent="Phrases" unique_id=1821763440]
 z_index = -1
@@ -241,9 +268,14 @@ theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
 theme_override_fonts/font = ExtResource("1_fq6pb")
 theme_override_font_sizes/font_size = 40
 toggle_mode = true
+action_mode = 0
 text = "PAUSE"
 flat = true
 script = ExtResource("7_q1xu3")
+
+[node name="PauseButtonAudio" type="AudioStreamPlayer" parent="Phrases/VideoControlBar/PauseButton" unique_id=144288550]
+stream = ExtResource("11_tmuwj")
+volume_db = -10.0
 
 [node name="TimeBar" type="ColorRect" parent="Phrases/VideoControlBar" unique_id=1434487905]
 layout_mode = 0
@@ -251,6 +283,20 @@ offset_top = -5.0
 offset_right = 640.0
 color = Color(1, 0.16666669, 0, 1)
 script = ExtResource("8_5ka11")
+
+[node name="StaticRect" type="TextureRect" parent="Phrases" unique_id=799089472]
+z_index = -1
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 480.0
+mouse_filter = 2
+texture = ExtResource("17_v3sfs")
+expand_mode = 1
+script = ExtResource("18_nil0t")
+
+[node name="Timer" type="Timer" parent="Phrases/StaticRect" unique_id=1328849580]
+wait_time = 0.2
+autostart = true
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=151531649]
 z_index = -2
@@ -260,7 +306,7 @@ offset_bottom = 480.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=219502911]
+[node name="CRTRect" type="TextureRect" parent="." unique_id=219502911]
 modulate = Color(1, 1, 1, 0.19607843)
 z_index = 2
 offset_right = 640.0
@@ -279,3 +325,4 @@ expand_mode = 1
 [connection signal="timeout" from="Phrases/AlienTextLabel/ShakeTimer" to="Phrases/AlienTextLabel" method="_on_shake_timer_timeout"]
 [connection signal="toggled" from="Phrases/VideoControlBar/PauseButton" to="Phrases/AlienTextLabel" method="_on_pause_button_toggled"]
 [connection signal="toggled" from="Phrases/VideoControlBar/PauseButton" to="Phrases/VideoControlBar/PauseButton" method="_on_toggled"]
+[connection signal="timeout" from="Phrases/StaticRect/Timer" to="Phrases/StaticRect" method="_on_timer_timeout"]

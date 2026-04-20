@@ -1,5 +1,17 @@
 extends Node
 
-func _process(_delta):
-	if Input.is_action_just_released("ESC"):
-		get_tree().reload_current_scene()
+var tunnel_loop := preload("res://Assets/SFX/TunnelLoop.wav")
+var nightmare_loop := preload("res://Assets/SFX/NightmareLoop.wav")
+
+func _ready() -> void:
+	switch_ambience()
+	GameController.start_game.connect(switch_ambience)
+	
+func switch_ambience():
+	if GameController.hardmode:
+		$AmbienceAudio.stream = nightmare_loop
+		$AmbienceAudio.volume_db = -10
+	else:
+		$AmbienceAudio.stream = tunnel_loop
+		$AmbienceAudio.volume_db = -15
+	$AmbienceAudio.play()

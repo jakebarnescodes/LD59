@@ -11,6 +11,9 @@ var paused = false
 
 @onready var base_pos := position
 
+func _ready() -> void:
+	GameController.submit.connect(submitted)
+
 func start_phrases():
 	if GameController.hardmode:
 		current_phrase_index = randi_range(0, phrases.size() - 1)
@@ -21,8 +24,14 @@ func start_phrases():
 
 func start_typing_phrase():
 	text = ""
+	if GameController.hardmode:
+		$TypeEffectTimer.wait_time = 0.3
+	else:
+		$TypeEffectTimer.wait_time = 0.5
 	$TypeEffectTimer.start()
 	type_effect_progress = 0
+	$StaticAudioPlayer.play()
+	$WhispersPlayer.play()
 
 func translate_phrase(input : String) -> String:
 	var output := ""
@@ -35,12 +44,14 @@ func _on_type_effect_timer_timeout() -> void:
 		text += current_phrase[type_effect_progress]
 		label_settings.font_size = 120 - int(type_effect_progress * 3.4)
 		type_effect_progress += 1
+		$TypeEffectAudioPlayer.pitch_scale = randf_range(0.9,1.1)
+		$TypeEffectAudioPlayer.play()
 	else:
 		$TypeEffectTimer.stop()
 		if GameController.hardmode:
 			$PhraseTimer.wait_time = 5.0
 		else:
-			$PhraseTimer.wait_time = 5.0 + (5.0 / (current_phrase_index+ 1))
+			$PhraseTimer.wait_time = 6.0
 		$PhraseTimer.start()
 
 func _on_phrase_timer_timeout() -> void:
@@ -61,3 +72,11 @@ func _on_pause_button_toggled(toggled_on: bool) -> void:
 	$TypeEffectTimer.paused = paused
 	$PhraseTimer.paused = paused
 	$ShakeTimer.paused = paused
+	$"../StaticRect/Timer".paused = paused
+	
+func submitted():
+	$PhraseTimer.stop()
+	$TypeEffectTimer.stop()
+	$ShakeTimer.stop()
+	$StaticAudioPlayer.stop()
+	$WhispersPlayer.stop()

@@ -2,6 +2,7 @@ extends CanvasLayer
 
 @export_multiline var good_ending_text : String
 @export_multiline var bad_ending_text : String
+@export_multiline var best_ending_text : String
 
 func _ready() -> void:
 	GameController.submit.connect(display_ending)
@@ -9,7 +10,10 @@ func _ready() -> void:
 func display_ending():
 	$Timer.start()
 	if GameController.good_ending:
-		$EndingLabel.text = good_ending_text
+		if GameController.hardmode:
+			$EndingLabel.text = best_ending_text
+		else:
+			$EndingLabel.text = good_ending_text
 	else:
 		$EndingLabel.text = bad_ending_text
 		

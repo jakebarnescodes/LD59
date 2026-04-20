@@ -5,3 +5,4 @@ func _ready() -> void:
 	
 func turn_off_screen():
 	$ScreenPlane.visible = false
+	$ScreenOffSound.play()

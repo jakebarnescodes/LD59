@@ -3,10 +3,18 @@
 [ext_resource type="Script" uid="uid://cwsv4p5p7og27" path="res://Scripts/whiteboard.gd" id="1_015jc"]
 [ext_resource type="Script" uid="uid://clfefp6em578o" path="res://Scripts/whiteboard_entries.gd" id="1_t0r2g"]
 [ext_resource type="FontFile" uid="uid://dkxhx4e5oklsa" path="res://Assets/Fonts/design.graffiti.comicsansmsgras.ttf" id="2_015jc"]
+[ext_resource type="AudioStream" uid="uid://busa6u0jlu7xa" path="res://Assets/SFX/click.wav" id="4_oa12a"]
+[ext_resource type="FontFile" uid="uid://da5irmufewpr0" path="res://Assets/Fonts/Alpha.otf" id="4_s53qy"]
+[ext_resource type="Script" uid="uid://d2yypmwmpsla0" path="res://Scripts/title.gd" id="5_esuq5"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_015jc"]
+font = ExtResource("4_s53qy")
+font_size = 100
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_esuq5"]
 font = ExtResource("2_015jc")
-font_size = 72
+font_size = 24
 font_color = Color(0, 0, 0, 1)
 
 [node name="WhiteboardScene" type="Node2D" unique_id=1923283453]
@@ -18,6 +26,7 @@ offset_right = 600.0
 offset_bottom = 350.0
 
 [node name="EntriesMenu" type="Control" parent="." unique_id=2029201221]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 600.0
@@ -47,34 +56,53 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0.5, 0.5, 0.5, 1)
-theme_override_colors/font_disabled_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_colors/font_disabled_color = Color(0.8, 0.8, 0.8, 1)
 theme_override_fonts/font = ExtResource("2_015jc")
 theme_override_font_sizes/font_size = 24
 text = "SUBMIT"
 flat = true
 
 [node name="MainMenu" type="Control" parent="." unique_id=1508236197]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 600.0
 offset_bottom = 350.0
 
-[node name="Title" type="Label" parent="MainMenu" unique_id=1887921474]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu" unique_id=137972805]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -287.5
-offset_top = -50.5
-offset_right = 287.5
-offset_bottom = 50.5
+offset_left = -250.0
+offset_top = -50.0
+offset_right = 250.0
+offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "This is the Title"
+alignment = 1
+
+[node name="Title" type="Label" parent="MainMenu/VBoxContainer" unique_id=1887921474]
+layout_mode = 2
+text = "ALPHA"
 label_settings = SubResource("LabelSettings_015jc")
 horizontal_alignment = 1
+script = ExtResource("5_esuq5")
+
+[node name="Title2" type="Label" parent="MainMenu/VBoxContainer" unique_id=734856466]
+layout_mode = 2
+text = "A        L        P        H        A"
+label_settings = SubResource("LabelSettings_esuq5")
+horizontal_alignment = 1
+
+[node name="Credits" type="Label" parent="MainMenu/VBoxContainer" unique_id=867971086]
+layout_mode = 2
+text = "by Jake Barnes"
+label_settings = SubResource("LabelSettings_esuq5")
+horizontal_alignment = 1
+
+[node name="SubmitSound" type="AudioStreamPlayer" parent="." unique_id=821409625]
+stream = ExtResource("4_oa12a")
 
 [connection signal="pressed" from="EntriesMenu/SubmitButton" to="." method="_on_submit_button_pressed"]

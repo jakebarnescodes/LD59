@@ -17,17 +17,25 @@ signal story_event_1
 signal story_event_2
 signal story_event_3
 
+signal enable_hardmode(is_hard : bool)
+
 @warning_ignore("unused_signal") signal submit
 
 func _ready() -> void:
 	start_game.connect(start)
 	line_edited.connect(story_event_check)
 	submit.connect(check_submission)
+	enable_hardmode.connect(set_hardmode)
+	story_event = 0
+
+func set_hardmode(is_hard : bool):
+	hardmode = is_hard
 
 func start():
 	generate_answers()
 	clear_submission()
 	give_random_answers()
+	story_event = 0
 
 func generate_answers():
 	var value_letters = letters.duplicate_deep()
@@ -83,18 +91,22 @@ func find_key_by_value(dict: Dictionary, target):
 
 func story_event_check():
 	var entries_filled = submission.size()
-	if story_event == 0 and entries_filled >= 10:
+	if story_event == 0 and entries_filled >= 15:
+		story_event += 1
+		await get_tree().create_timer(randf_range(1.0,5.0)).timeout
 		story_event_0.emit()
+	elif story_event == 1 and entries_filled >= 19:
 		story_event += 1
-	elif story_event == 1 and entries_filled >= 15:
+		await get_tree().create_timer(randf_range(1.0,5.0)).timeout
 		story_event_1.emit()
+	elif story_event == 2 and entries_filled >= 23:
 		story_event += 1
-	elif story_event == 2 and entries_filled >= 20:
+		await get_tree().create_timer(randf_range(1.0,5.0)).timeout
 		story_event_2.emit()
-		story_event += 1
 	elif story_event == 3 and entries_filled >= 26:
-		story_event_3.emit()
 		story_event += 1
+		await get_tree().create_timer(randf_range(1.0,5.0)).timeout
+		story_event_3.emit()
 
 func check_submission():
 	for letter in letters:
